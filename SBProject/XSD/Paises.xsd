@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:paises="http://www.paises.org"
+            targetNamespace="http://www.paises.org" elementFormDefault="qualified">
+  <xsd:element name="PaisesOutput" type="paises:PaisesOutputType">
+    <xsd:annotation>
+      <xsd:documentation>A sample element</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:element name="PaisesInput" type="paises:PaisesInputType"/>
+  <xsd:element name="PaisesPersonasOutput" type="paises:PaisesPersonasOutputType"/>
+  <xsd:element name="HabitantesOutput" type="paises:HabitantesOutputType"/>
+  <xsd:complexType name="PaisesOutputType">
+    <xsd:sequence>
+      <xsd:element name="pais" maxOccurs="unbounded" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id_pais" type="xsd:int"/>
+            <xsd:element name="pais" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PaisesInputType">
+    <xsd:sequence>
+      <xsd:element name="pais" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:choice>
+            <xsd:element name="id_pais" type="xsd:int"/>
+            <xsd:element name="pais" type="xsd:string"/>
+          </xsd:choice>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PaisesPersonasOutputType">
+    <xsd:sequence>
+      <xsd:element name="pais" maxOccurs="unbounded" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id_pais" type="xsd:int"/>
+            <xsd:element name="pais" type="xsd:string"/>
+            <xsd:element name="Habitantes" type="paises:HabitantesOutputType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="HabitantesOutputType">
+    <xsd:sequence>
+      <xsd:element name="Personas">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Persona" maxOccurs="unbounded" minOccurs="0">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="dni"/>
+                  <xsd:element name="nombre"/>
+                  <xsd:element name="apellido"/>
+                  <xsd:element name="id_pais"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="SBProject/WSDL/paises-personas2"/>
+            <con:binding>
+                <con:name>execute_bind</con:name>
+                <con:namespace>http://xmlns.oracle.com/SBExamen/SBProject/paises-personas2</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:flow>
+            <con:route-node name="RouteNode1" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                <con:context>
+                    <con2:userNsDecl prefix="pais" namespace="http://www.paises.org"/>
+                </con:context>
+                <con:actions>
+                    <con1:route>
+                        <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7f02</con2:id>
+                        <con1:service ref="SBProject/ADAPTERS/PAISES/dbRefPaises_select" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:operation>dbReferencePaises</con1:operation>
+                        <con1:outboundTransform>
+                            <con3:assign varName="entradaCliente" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7ecf</con2:id>
+                                <con3:expr>
+                                    <con2:xqueryText>$body/pais:PaisesInput</con2:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                        </con1:outboundTransform>
+                        <con1:responseTransform>
+                            <con3:wsCallout xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7e6b</con2:id>
+                                <con3:service ref="SBProject/ADAPTERS/dbRef_todasLasPersonas" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                <con3:operation>dbRef_todasLasPersonas</con3:operation>
+                                <con3:request>
+                                    <con3:body wrapped="false">entradaCallout1</con3:body>
+                                </con3:request>
+                                <con3:response>
+                                    <con3:body wrapped="false">salidaCallout1</con3:body>
+                                </con3:response>
+                                <con3:requestTransform>
+                                    <con3:assign varName="entradaCallout1">
+                                        <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7e38</con2:id>
+                                        <con3:expr>
+                                            <con2:xqueryText>&lt;dbr:dbRef_todasLasPersonasInput xmlns:dbr="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas"/></con2:xqueryText>
+                                        </con3:expr>
+                                    </con3:assign>
+                                </con3:requestTransform>
+                                <con3:responseTransform/>
+                            </con3:wsCallout>
+                            <con3:assign varName="salidaPaisesConPersonas" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:comment>gran super xquery</con2:comment>
+                                <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7e05</con2:id>
+                                <con2:disabled>true</con2:disabled>
+                            </con3:assign>
+                            <con3:assign varName="salidaFinal" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7dc6</con2:id>
+                                <con2:disabled>true</con2:disabled>
+                                <con3:expr>
+                                    <con2:xqueryText>$body/pais:PaisesPersonasOutput</con2:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                            <con3:ifThenElse xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7dfd</con2:id>
+                                <con2:disabled>true</con2:disabled>
+                                <con3:case id="_BranchId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7dfc">
+                                    <con3:actions>
+                                        <con3:replace varName="body" contents-only="false">
+                                            <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7dc9</con2:id>
+                                            <con3:location>
+                                                <con2:xpathText>.</con2:xpathText>
+                                            </con3:location>
+                                        </con3:replace>
+                                    </con3:actions>
+                                </con3:case>
+                                <con3:default/>
+                            </con3:ifThenElse>
+                        </con1:responseTransform>
+                    </con1:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

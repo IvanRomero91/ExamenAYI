@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="dbRef_todasLasPersonas"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRef_todasLasPersonas"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRef_todasLasPersonas"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="dbRef_todasLasPersonas_plt" >
+    <plt:role name="dbRef_todasLasPersonas_role" >
+      <plt:portType name="tns:dbRef_todasLasPersonas_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas" schemaLocation="dbRef_todasLasPersonas.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="dbRef_todasLasPersonasInput_msg">
+        <wsdl:part name="dbRef_todasLasPersonasInput_msg" element="db:dbRef_todasLasPersonasInput"/>
+    </wsdl:message>
+    <wsdl:message name="dbRef_todasLasPersonasOutputCollection_msg">
+        <wsdl:part name="dbRef_todasLasPersonasOutputCollection" element="db:dbRef_todasLasPersonasOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="dbRef_todasLasPersonas_ptt">
+        <wsdl:operation name="dbRef_todasLasPersonas">
+            <wsdl:input message="tns:dbRef_todasLasPersonasInput_msg"/>
+            <wsdl:output message="tns:dbRef_todasLasPersonasOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:coreEntry>
+        <con:description>paso a paso siguiendo lo que dice el profe en el video https://www.youtube.com/watch?v=iD6IXBtuto8</con:description>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="SBProject/WSDL/paises-personas2"/>
+            <con:binding>
+                <con:name>execute_bind</con:name>
+                <con:namespace>http://xmlns.oracle.com/SBExamen/SBProject/paises-personas2</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="error" name="error-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f66">
+            <con:stage id="_StageId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f65" name="Stage1">
+                <con:context>
+                    <con1:userNsDecl prefix="pais" namespace="http://www.paises.org" xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con1:replace varName="body" contents-only="true" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f62</con2:id>
+                        <con2:disabled xmlns:con2="http://www.bea.com/wli/sb/stages/config">true</con2:disabled>
+                        <con1:location>
+                            <con2:xpathText xmlns:con2="http://www.bea.com/wli/sb/stages/config">./pais:PaisesPersonasOutput</con2:xpathText>
+                        </con1:location>
+                    </con1:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:route-node name="RouteNode1" error-handler="error-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f66" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                <con:context>
+                    <con2:userNsDecl prefix="dbr" namespace="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas"/>
+                    <con2:userNsDecl prefix="pais" namespace="http://www.paises.org"/>
+                    <con3:variable name="paisesFiltrados" path="$paisesFiltrados" asChild="false" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config">
+                        <con3:schema ref="SBProject/XSD/Paises" element="PaisesOutput"/>
+                    </con3:variable>
+                    <con3:variable name="paises" path="$paises" asChild="false" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config">
+                        <con3:schema ref="SBProject/XSD/Paises" element="PaisesOutput"/>
+                    </con3:variable>
+                </con:context>
+                <con:actions>
+                    <con1:route>
+                        <con2:comment>llama a todos los paises del dbRef</con2:comment>
+                        <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f91</con2:id>
+                        <con1:service ref="SBProject/ADAPTERS/PAISES/dbRefPaises_select" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:operation>dbReferencePaises</con1:operation>
+                        <con1:outboundTransform>
+                            <con3:validate xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f579bb7.N6dc9a5bf.0.17ff75dcd2e.N7f03</con2:id>
+                                <con2:disabled>true</con2:disabled>
+                            </con3:validate>
+                            <con3:assign varName="paisesCliente" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:comment>Guarda los paises(id_pais y descripcion) que ingresa el cliente externo en la variable $paisesCliente</con2:comment>
+                                <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7ef8</con2:id>
+                                <con3:expr>
+                                    <con2:xqueryText>$body/pais:PaisesInput</con2:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                        </con1:outboundTransform>
+                        <con1:responseTransform>
+                            <con3:assign varName="paises" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:comment>pasa el resultado del dbRef paises a PaisesOutputType con XQuery y lo guarda en $paises.</con2:comment>
+                                <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f15</con2:id>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="SBProject/XQUERY/paisesYpersonas"/>
+                                        <con2:param name="paises">
+                                            <con2:path>$body/*:dbReferencePaisesOutputCollection</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:assign>
+                            <con3:wsCallout xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:comment>llamar la lista de todas las personas</con2:comment>
+                                <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f80</con2:id>
+                                <con3:service ref="SBProject/ADAPTERS/dbRef_todasLasPersonas" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                <con3:operation>dbRef_todasLasPersonas</con3:operation>
+                                <con3:request>
+                                    <con3:body wrapped="false">entradaPersonas</con3:body>
+                                </con3:request>
+                                <con3:response>
+                                    <con3:body wrapped="false">salidaPersonas</con3:body>
+                                </con3:response>
+                                <con3:requestTransform>
+                                    <con3:assign varName="entradaPersonas">
+                                        <con2:comment>asignar a una variable la lista de personas</con2:comment>
+                                        <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f5f</con2:id>
+                                        <con3:expr>
+                                            <con2:xqueryText>&lt;dbr:dbRef_todasLasPersonasInput xmlns:dbr="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas"/></con2:xqueryText>
+                                        </con3:expr>
+                                    </con3:assign>
+                                </con3:requestTransform>
+                                <con3:responseTransform>
+                                    <con3:insert varName="body">
+                                        <con2:comment>esto era para el for</con2:comment>
+                                        <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f0a</con2:id>
+                                        <con2:disabled>true</con2:disabled>
+                                        <con3:location>
+                                            <con2:xpathText>.</con2:xpathText>
+                                        </con3:location>
+                                        <con3:where>first-child</con3:where>
+                                        <con3:expr>
+                                            <con2:xqueryText>$salidaFOR</con2:xqueryText>
+                                        </con3:expr>
+                                    </con3:insert>
+                                    <con3:assign varName="salidaXQuery">
+                                        <con2:comment>Pasa todas las personas devueltas por el dbRef a HabitantesOutput y lo asigna a la variable $salidaFOR debería cambiarle el nombre ya que la lista de todas las personas no es la salida del FOR EACH</con2:comment>
+                                        <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f1a</con2:id>
+                                        <con3:expr>
+                                            <con2:xqueryTransform>
+                                                <con2:resource ref="SBProject/XQUERY/dbRef_todasLasPersonas_2_PersonasOut"/>
+                                                <con2:param name="dbRef_todasLasPersonas">
+                                                    <con2:path>$salidaPersonas</con2:path>
+                                                </con2:param>
+                                            </con2:xqueryTransform>
+                                        </con3:expr>
+                                    </con3:assign>
+                                    <con3:assign varName="salida">
+                                        <con2:comment>assign para el for each</con2:comment>
+                                        <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f22</con2:id>
+                                        <con2:disabled>true</con2:disabled>
+                                        <con3:expr>
+                                            <con2:xqueryText><![CDATA[<dbRef_todasLasPersonasOutputCollection 	xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <dbRef_todasLasPersonasOutput>
+    <dni>{fn:data($body/pais:PaisesPersonasOutput/pais:pais/pais:Habitantes/pais:Personas/pais:Persona[fn:data($indice)]/pais:dni)}</dni>
+    <nombre>{fn:data($body/pais:PaisesPersonasOutput/pais:pais/pais:Habitantes/pais:Personas/pais:Persona[fn:data($indice)]/pais:nombre)}</nombre>
+    <apellido>{fn:data($body/pais:PaisesPersonasOutput/pais:pais/pais:Habitantes/pais:Personas/pais:Persona[fn:data($indice)]/pais:apellido)}</apellido>
+    <id_pais>{fn:data($body/pais:PaisesPersonasOutput/pais:pais/pais:Habitantes/pais:Personas/pais:Persona[fn:data($indice)]/pais:id_pais)}</id_pais>
+  </dbRef_todasLasPersonasOutput>
+</dbRef_todasLasPersonasOutputCollection>]]></con2:xqueryText>
+                                        </con3:expr>
+                                    </con3:assign>
+                                </con3:responseTransform>
+                            </con3:wsCallout>
+                            <con3:assign varName="paisesFiltrados" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7e81</con2:id>
+                                <con3:expr>
+                                    <con2:xqueryText><![CDATA[<ns2:pais 	xmlns:ns2="http://www.paises.org">
+<ns2:id_pais></ns2:id_pais>
+<ns2:pais></ns2:pais>
+</ns2:pais>]]></con2:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                            <con3:foreach xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:comment>Por cada pais en la variable $paises... preguntar si el pais esta en la lista</con2:comment>
+                                <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f83</con2:id>
+                                <con3:variable>paises</con3:variable>
+                                <con3:expression>
+                                    <con2:xpathText>$paises/pais:pais</con2:xpathText>
+                                </con3:expression>
+                                <con3:value-variable>item</con3:value-variable>
+                                <con3:index-variable>index</con3:index-variable>
+                                <con3:total-variable>count</con3:total-variable>
+                                <con3:actions>
+                                    <con3:ifThenElse>
+                                        <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f76</con2:id>
+                                        <con3:case id="_BranchId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7f75">
+                                            <con3:condition>
+                                                <con2:xqueryText>fn:data($paises/pais:pais[$index]/pais:id_pais) eq fn:data($paisesCliente/pais:pais/pais:id_pais)</con2:xqueryText>
+                                            </con3:condition>
+                                            <con3:actions>
+                                                <con3:assign varName="trueIF">
+                                                    <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7eec</con2:id>
+                                                    <con2:disabled>true</con2:disabled>
+                                                    <con3:expr>
+                                                        <con2:xqueryText>$item</con2:xqueryText>
+                                                    </con3:expr>
+                                                </con3:assign>
+                                                <con3:insert varName="paisesFiltrados">
+                                                    <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7e7a</con2:id>
+                                                    <con3:location>
+                                                        <con2:xpathText>.</con2:xpathText>
+                                                    </con3:location>
+                                                    <con3:where>first-child</con3:where>
+                                                    <con3:expr>
+                                                        <con2:xqueryText>$item</con2:xqueryText>
+                                                    </con3:expr>
+                                                </con3:insert>
+                                            </con3:actions>
+                                        </con3:case>
+                                        <con3:default>
+                                            <con3:assign>
+                                                <con2:id>_ActionId-N3f579bb7.2d4b37e1.0.17fe07f8123.N7eb6</con2:id>
+                                                <con2:disabled>true</con2:disabled>
+                                                <con3:expr>
+                                                    <con2:xqueryText>$item/pais</con2:xqueryText>
+                                                </con3:expr>
+                                            </con3:assign>
+                                        </con3:default>
+                                    </con3:ifThenElse>
+                                </con3:actions>
+                            </con3:foreach>
+                        </con1:responseTransform>
+                    </con1:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+        <con:shared-variables>
+            <con:variable>salidaPersonas</con:variable>
+            <con:variable>index</con:variable>
+        </con:shared-variables>
+    </con:router>
+</con:pipelineEntry>

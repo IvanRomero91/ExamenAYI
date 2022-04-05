@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns:composite xmlns:ns="http://xmlns.oracle.com/sca/1.0">
+    <ns:reference>
+        <ns:interface src="BusinessService:SBProject/dbReferencetest"/>
+    </ns:reference>
+    <ns:reference>
+        <ns:interface src="BusinessService:SBProject/ADAPTERS/dbRef_todasLasPersonas"/>
+    </ns:reference>
+    <ns:reference>
+        <ns:interface src="BusinessService:SBProject/ADAPTERS/PAISES/dbRefPaises_delete"/>
+    </ns:reference>
+    <ns:reference>
+        <ns:interface src="BusinessService:SBProject/ADAPTERS/PAISES/dbRefPaises_insert"/>
+    </ns:reference>
+    <ns:reference>
+        <ns:interface src="BusinessService:SBProject/ADAPTERS/PAISES/dbRefPaises_update"/>
+    </ns:reference>
+    <ns:reference>
+        <ns:interface src="BusinessService:SBProject/ADAPTERS/dbReferencePersonas"/>
+    </ns:reference>
+    <ns:reference>
+        <ns:interface src="BusinessService:SBProject/ADAPTERS/PAISES/dbRefPaises_select"/>
+    </ns:reference>
+</ns:composite>

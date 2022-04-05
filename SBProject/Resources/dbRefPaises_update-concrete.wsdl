@@ -1,0 +1,12 @@
+<wsdl:definitions targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRefPaises_update" name="dbRefPaises_update-concrete" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:import location="dbRefPaises_update.wsdl" namespace="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRefPaises_update"/>
+    <wsdl:binding name="dbRefPaises_update_ptt-binding" type="dbr:dbRefPaises_update_ptt" xmlns:dbr="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRefPaises_update">
+        <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+        <wsdl:operation name="dbRefPaises_update">
+            <soap:operation soapAction="dbRefPaises_update"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

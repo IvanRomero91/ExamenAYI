@@ -1,0 +1,12 @@
+<wsdl:definitions targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRefPaises_delete" name="dbRefPaises_delete-concrete" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:import location="dbRefPaises_delete.wsdl" namespace="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRefPaises_delete"/>
+    <wsdl:binding name="dbRefPaises_delete_ptt-binding" type="dbr:dbRefPaises_delete_ptt" xmlns:dbr="http://xmlns.oracle.com/pcbpel/adapter/db/SBExamen/SBProject/dbRefPaises_delete">
+        <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+        <wsdl:operation name="dbRefPaises_delete">
+            <soap:operation soapAction="dbRefPaises_delete"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

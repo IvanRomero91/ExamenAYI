@@ -1,0 +1,10 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/dbRefPaises_insert" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/dbRefPaises_insert" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="dbRefPaises_insertInput" type="dbRefPaises_insertInput"/>
+   <xs:complexType name="dbRefPaises_insertInput">
+      <xs:sequence>
+         <xs:element name="id" type="xs:integer" nillable="true"/>
+         <xs:element name="pais" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

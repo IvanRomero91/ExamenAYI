@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/dbReferencetest" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/dbReferencetest" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="dbReferencetestInput" type="dbReferencetestInput"/>
+   <xs:complexType name="dbReferencetestInput">
+      <xs:sequence/>
+   </xs:complexType>
+   <xs:element name="dbReferencetestOutputCollection" type="dbReferencetestOutputCollection"/>
+   <xs:complexType name="dbReferencetestOutputCollection">
+      <xs:sequence>
+         <xs:element name="dbReferencetestOutput" type="dbReferencetestOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="dbReferencetestOutput">
+      <xs:sequence>
+         <xs:element name="ID_PAIS" type="xs:integer" nillable="true"/>
+         <xs:element name="DESCRIPCION" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

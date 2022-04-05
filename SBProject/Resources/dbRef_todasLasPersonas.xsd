@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/dbRef_todasLasPersonas" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="dbRef_todasLasPersonasInput" type="dbRef_todasLasPersonasInput"/>
+   <xs:complexType name="dbRef_todasLasPersonasInput">
+      <xs:sequence/>
+   </xs:complexType>
+   <xs:element name="dbRef_todasLasPersonasOutputCollection" type="dbRef_todasLasPersonasOutputCollection"/>
+   <xs:complexType name="dbRef_todasLasPersonasOutputCollection">
+      <xs:sequence>
+         <xs:element name="dbRef_todasLasPersonasOutput" type="dbRef_todasLasPersonasOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="dbRef_todasLasPersonasOutput">
+      <xs:sequence>
+         <xs:element name="dni" type="xs:integer" nillable="true"/>
+         <xs:element name="nombre" type="xs:string" nillable="true"/>
+         <xs:element name="apellido" type="xs:string" nillable="true"/>
+         <xs:element name="id_pais" type="xs:integer" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>
